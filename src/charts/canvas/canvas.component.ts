@@ -22,21 +22,11 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
   styleUrl: './canvas.component.scss'
 })
 export class CanvasComponent {
-  chartOptions= {}
+
   chartOptions1= {}
-  private dataVals: DataVal[] =[]
   private dataValMarkerSize: DataValMarkerSize[] =[]
   interactions: Array<Interaction> = [];
   constructor(private http: HttpClient) {
-
-
-    this.chartOptions1 = {}
-
-
-
-
-    this.extracted();
-
     this.extracted1();
   }
 
@@ -58,13 +48,7 @@ export class CanvasComponent {
         ["November", {'count':0, sum:  0}],
         ["December",{'count':0, sum:  0}]
       ]);
-      let categoryCounts = {};
-      // const timestamp = 1713088921 * 1000; // Assuming '1713088921' is in seconds
 
-// Create a new Date object
-
-
-// Array of month names
       const monthNames = [
         "January", "February", "March",
         "April", "May", "June", "July",
@@ -72,13 +56,7 @@ export class CanvasComponent {
         "November", "December"
       ];
 
-
-
-
-
-      ;
       this.interactions.forEach(entry => {
-        // const month = date.toLocaleString('default', { month: 'long' });
         // @ts-ignore
         let key = monthNames[new Date(entry.timestamp * 1000).getMonth()]
         console.log("key     ",key)
@@ -95,18 +73,19 @@ export class CanvasComponent {
       });
 
       myMap.forEach((value: AHelp, key: string) => {
-        this.dataValMarkerSize.push({label: key, markerSize: value.count , y: (value.sum / value.count)+0.3 })
+        this.dataValMarkerSize.push({label: key, markerSize: (value.count*2) , y: (value.sum / value.count)+0.3, })
       });
       console.log('this.dataValMarkerSize',this.dataValMarkerSize)
       this.chartOptions1 = {
         axisX:{
           interval: 1
         },
-        title: {
 
+        title: {
           text: "Sentiment analysis per month"
         },
         data: [{
+          toolTipContent: "Interactions: {markerSize} </br> Sentiment: {y} ",
           animationEnabled: true,
           markerType: "circle",  //"circle", "square", "cross", "none"
           type: "line",
@@ -116,62 +95,6 @@ export class CanvasComponent {
       };
     });
   }
-
-
-
-
-
-
-
-
-
-
-  private extracted() {
-    this.http.get<Interaction[]>('http://ec2-52-205-250-126.compute-1.amazonaws.com:8080/interaction/all').subscribe((data: Interaction[]): void => {
-      // console.log(data)
-      this.interactions = data;
-      let myMap = new Map<string, AHelp>();
-      let categoryCounts = {};
-      this.interactions.forEach(entry => {
-        const category: string = entry.category.toLowerCase().replace("_", " ");
-        if (!myMap.has(category)) {
-          myMap.set(category, {count: 0, sum: 0});
-        }
-        let me = myMap.get(category)
-        let overallSentiment;
-        if (entry.overallSentiment.sentimentType === "POSITIVE" || entry.overallSentiment.sentimentType == "NEUTRAL") {
-          overallSentiment = +entry.overallSentiment.sentimentConfidence.positive;
-        } else {
-          overallSentiment = +entry.overallSentiment.sentimentConfidence.negative;
-        }
-        // @ts-ignore
-        myMap.set(category, {count: me?.count + 1, sum: overallSentiment});
-
-      });
-      myMap.forEach((value: AHelp, key: string) => {
-        this.dataVals.push({label: `${key} (${value.count})`, y: (value.sum / value.count)})
-      });
-
-      this.chartOptions = {
-        title: {
-          text: "Basic Column Chart in Angular"
-        },
-        data: [{
-          type: "column",
-          dataPoints: this.dataVals
-        }]
-      };
-    });
-  }
-
-  ngOnInit():void {
-    console.log('ngOnInit');
-  }
-
-  ngAfterViewInit(): void {
-    console.log('ngAfterViewInit');
-  }
-
 
 
 }
