@@ -1,11 +1,10 @@
-import {Component, computed, Input, OnInit, signal, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, signal, ViewChild} from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {MatSort, MatSortModule, Sort} from '@angular/material/sort';
 // import { Interaction} from './user-input-model';
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {Dataaaaa} from "./DemoData";
 // import {TufinUiCommonModule} from "@tufin/angular-ui-common";
 import {MatDialog} from "@angular/material/dialog";
 import {UserInputConversationComponent} from "./user-input-conversation/user-input-conversation.component";

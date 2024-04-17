@@ -18,7 +18,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {AHelp, DataVal, DataValMarkerSize, Interaction} from "../charts.models";
 
 @Component({
