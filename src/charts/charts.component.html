@@ -1,4 +1,13 @@
+<!--<mat-grid-list cols="2" rowHeight="2:1">-->
+<!--    <mat-grid-tile><app-canvas></app-canvas></mat-grid-tile>-->
+<!--    <mat-grid-tile><app-columns></app-columns></mat-grid-tile>-->
 
+<!--</mat-grid-list>-->
+<div class="canvass">
+    <div class="canvas"><app-canvas></app-canvas></div>
+    <div class="canvas"><app-columns></app-columns></div>
+
+</div>
 
 <button mat-raised-button (click)="openDialogCanvasLine('500ms', '500ms')">Sentiment analysis feature</button>
-<!--<button mat-raised-button (click)="openDialog('500ms', '500ms')">Sentiment analysis per month</button>-->
+<button mat-raised-button (click)="openColumnsComponent('500ms', '500ms')">Sentiment analysis per month</button>

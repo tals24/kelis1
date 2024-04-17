@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {AHelp, DataValMarkerSize, Interaction} from "../charts.models";
 
 @Component({
   selector: 'app-canvas',
@@ -77,6 +78,7 @@ export class CanvasComponent {
       });
       console.log('this.dataValMarkerSize',this.dataValMarkerSize)
       this.chartOptions1 = {
+        width:620,
         axisX:{
           interval: 1
         },
@@ -99,52 +101,4 @@ export class CanvasComponent {
 
 }
 
-export interface AHelp {
-  count: 0,
-  sum:  0
-}
-//
-export interface Interaction {
-  account: string;
-  userVersion: string;
-  category: string;
-  userQuery: string;
-  timestamp: number;
-  analyzedUserResponse: AnalyzedUserResponse[];
-  overallSentiment: OverallSentiment;
-}
-
-export interface AnalyzedUserResponse {
-  id: number;
-  input: string;
-  sentiment: Sentiment;
-}
-
-export interface Sentiment {
-  sentimentType: string;
-  sentimentConfidence: {
-    positive: number;
-    negative: number;
-    neutral: number;
-    mixed: number;
-  };
-}
-export interface OverallSentiment {
-  sentimentType: "NEGATIVE" | "NEUTRAL" |  "POSITIVE",
-  sentimentConfidence: {
-    positive: number,
-    negative: number
-
-  }
-}
-export interface DataVal{
-  label: string,
-  y: number,
-}
-
-export interface DataValMarkerSize{
-  label: string,
-  markerSize: number,
-  y: number,
-}
 
