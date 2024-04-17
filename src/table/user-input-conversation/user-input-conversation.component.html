@@ -1,0 +1,15 @@
+<h1>
+  <span>Conversation</span>
+</h1>
+
+<div *ngFor="let message of conversation">
+  <ng-container *ngIf="readMessage(message) as msg">
+      <span *ngIf="msg.type === 'Assistant'" class="assistant">{{msg.text}}</span>
+      <span *ngIf="msg.type === 'user'" class="user">{{msg.text}}</span>
+      <span *ngIf="msg.type === null" class="simple">{{msg.text}}</span>
+  </ng-container>
+</div>
+
+<div class="btn-div">
+  <button mat-button (click)="closeDialog()" class="close-btn">Close</button>
+</div>
