@@ -19,7 +19,7 @@ import {MatList} from "@angular/material/list";
     CommonModule, ReactiveFormsModule, MatCardContent, MatToolbar, MatToolbarRow, MatList
   ],
   templateUrl: './lex.component.html',
-  styleUrl: './lex.component.css'
+  styleUrl: './lex.component.scss'
 })
 
 

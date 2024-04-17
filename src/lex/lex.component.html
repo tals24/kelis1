@@ -1,12 +1,5 @@
-<mat-card >
-    <ng-container *ngFor="let conversation of conversations">
-      <mat-card     [ngClass]="{'me': conversation.party == 'Me', 'lex' : conversation.party == 'Lex' }"> <mat-card-content color="primary">{{ conversation.party }}:   {{ conversation.text }} </mat-card-content></mat-card><br>
-    </ng-container>
-</mat-card>
+<div class="ask">
 
-
-<mat-card>
-    <h2>Ask Lex</h2>
     <form [formGroup]="addUserForm" (ngSubmit)="saveUserTyped()">
         <mat-form-field>
             <input matInput placeholder="Ask question" formControlName="question" />
@@ -15,4 +8,14 @@
             Ask Lex
         </button>
     </form>
-</mat-card>
+</div>
+<div class="conversations">
+<div  *ngFor="let conversation of conversations">
+        <span *ngIf="conversation.party === 'Lex'" class="assistant"><span class="ai">AI:</span> {{conversation.text}}</span>
+        <span *ngIf="conversation.party === 'Me'" class="user">{{conversation.text}}</span>
+
+</div>
+</div>
+
+
+
