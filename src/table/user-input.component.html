@@ -35,7 +35,7 @@
                         <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'category')" placeholder="Filter by Category">
                     </div>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.category}} </mat-cell>
+                <mat-cell *matCellDef="let row" class="colored-cell"> {{row.category}} </mat-cell>
             </ng-container>
 
             <!-- User Query Column -->
@@ -69,7 +69,7 @@
                         <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'userSentiment')" placeholder="Filter by User Sentiment">
                     </div>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{resolveSentiment(row)}} </mat-cell>
+                <mat-cell *matCellDef="let row" class="colored-cell"> {{resolveSentiment(row)}} </mat-cell>
             </ng-container>
 
             <!-- Sentiment Score Column -->
@@ -80,7 +80,7 @@
                         <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'sentimentScore')" placeholder="Filter by Sentiment Score">
                     </div>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{resolveSentimentScore(row)}} </mat-cell>
+                <mat-cell *matCellDef="let row" class="colored-cell"> {{resolveSentimentScore(row)}} </mat-cell>
             </ng-container>
 
             <!-- Define the table rows -->
