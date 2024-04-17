@@ -39,15 +39,15 @@ export class LexComponent {
       text: this.addUserForm.value.question,
     });
 
-    this.postSveUserTyped(this.addUserForm.value)
+    this.postSveUserTyped(this.addUserForm.value.question)
         .subscribe((response: any) => {
-          this.conversations.push({ party: 'Lex', text: response.createdAt });
+          this.conversations.push({ party: 'Lex', text: response.data[0] });
         });
     this.addUserForm.reset();
   }
   public postSveUserTyped(user: any): Observable<any> {
-    const url = 'https://reqres.in/api/users';
-    return this.http.post<any>(url, user);
+    const url = `https://automatic-lamp-5r5vj49wgxp37v6p-5000.app.github.dev?query=${user}`;
+    return this.http.get<any>(url);
   }
   ngOnInit(): void {}
 }
