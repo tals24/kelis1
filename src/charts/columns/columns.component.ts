@@ -58,10 +58,10 @@ export class ColumnsComponent {
         }
         let me = myMap.get(category)
         let overallSentiment;
-        if (entry.overallSentiment.sentimentType === "POSITIVE" || entry.overallSentiment.sentimentType == "NEUTRAL") {
+        if (entry.overallSentiment.sentimentType === "POSITIVE") {
           overallSentiment = +entry.overallSentiment.sentimentConfidence.positive;
-        } else {
-          overallSentiment = +entry.overallSentiment.sentimentConfidence.negative;
+        } else if (entry.overallSentiment.sentimentType === "NEGATIVE"){
+          overallSentiment = -entry.overallSentiment.sentimentConfidence.negative;
         }
         // @ts-ignore
         myMap.set(category, {count: me?.count + 1, sum: overallSentiment});
@@ -78,7 +78,13 @@ export class ColumnsComponent {
           text: "Sentiment analysis feature",
 
         },
+        axisY:{
+          minimum: -1,
+          maximum: 1
 
+
+
+        },
         data: [{
           type: "column",
           dataPoints: this.dataVals

@@ -63,9 +63,9 @@ export class CanvasComponent {
         console.log("key     ",key)
         let me = myMap.get(key)
         let overallSentiment;
-        if (entry.overallSentiment.sentimentType === "POSITIVE" || entry.overallSentiment.sentimentType == "NEUTRAL") {
+        if (entry.overallSentiment.sentimentType === "POSITIVE") {
           overallSentiment = +entry.overallSentiment.sentimentConfidence.positive;
-        } else {
+        } else if (entry.overallSentiment.sentimentType === "NEGATIVE") {
           overallSentiment = -entry.overallSentiment.sentimentConfidence.negative;
         }
         // @ts-ignore
@@ -74,7 +74,7 @@ export class CanvasComponent {
       });
 
       myMap.forEach((value: AHelp, key: string) => {
-        this.dataValMarkerSize.push({label: key, markerSize: (value.count*2) , y: (value.sum / value.count)+0.3, })
+        this.dataValMarkerSize.push({label: key, markerSize: (value.count*2) , y: (value.sum / value.count), })
       });
       console.log('this.dataValMarkerSize',this.dataValMarkerSize)
       this.chartOptions1 = {
