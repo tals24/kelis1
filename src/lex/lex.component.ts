@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
-import {MatCard} from "@angular/material/card";
+import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatFormField} from "@angular/material/form-field";
 import {HttpClient} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
+import {MatToolbar, MatToolbarRow} from "@angular/material/toolbar";
+import {MatList} from "@angular/material/list";
 
 @Component({
   selector: 'app-lex',
@@ -14,7 +16,7 @@ import {MatInputModule} from "@angular/material/input";
     MatCard,
     MatFormField,
     MatInputModule,
-    CommonModule, ReactiveFormsModule
+    CommonModule, ReactiveFormsModule, MatCardContent, MatToolbar, MatToolbarRow, MatList
   ],
   templateUrl: './lex.component.html',
   styleUrl: './lex.component.css'

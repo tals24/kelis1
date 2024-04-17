@@ -1,16 +1,18 @@
-<mat-card>
+<mat-card >
     <ng-container *ngFor="let conversation of conversations">
-        {{ conversation.party }} - {{ conversation.text }} <br />
+      <mat-card     [ngClass]="{'me': conversation.party == 'Me', 'lex' : conversation.party == 'Lex' }"> <mat-card-content color="primary">{{ conversation.party }}:   {{ conversation.text }} </mat-card-content></mat-card><br>
     </ng-container>
 </mat-card>
+
+
 <mat-card>
     <h2>Ask Lex</h2>
     <form [formGroup]="addUserForm" (ngSubmit)="saveUserTyped()">
         <mat-form-field>
             <input matInput placeholder="Ask question" formControlName="question" />
         </mat-form-field>
-        <button [disabled]="!addUserForm.valid" mat-raised-button type="submit">
-            Ask
+        <button   mat-button color="warn"   [disabled]="!addUserForm.valid" mat-raised-button type="submit">
+            Ask Lex
         </button>
     </form>
 </mat-card>
