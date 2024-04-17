@@ -1,5 +1,6 @@
 .canvass{
-
+    display: flex;
+    flex-direction: row;
 }
 
 .canvas{

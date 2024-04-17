@@ -1,55 +1,79 @@
-import {Component, computed, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, computed, Input, OnInit, signal, ViewChild} from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {MatSort, MatSortModule, Sort} from '@angular/material/sort';
-import { UserInputModel} from './user-input-model';
+// import { Interaction} from './user-input-model';
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {Dataaaaa} from "./DemoData";
-import {TufinUiCommonModule} from "@tufin/angular-ui-common";
+// import {TufinUiCommonModule} from "@tufin/angular-ui-common";
 import {MatDialog} from "@angular/material/dialog";
 import {UserInputConversationComponent} from "./user-input-conversation/user-input-conversation.component";
+import {HttpClient} from "@angular/common/http";
+import {Interaction} from "../charts/charts.models";
+import {ChartsComponent} from "../charts/charts.component";
 
 @Component({
   selector: 'user-input',
   templateUrl: './user-input.component.html',
   styleUrls: ['./user-input.component.scss'],
   standalone: true,
-  imports: [MatTableModule, MatSortModule, DatePipe, MatInputModule, NgIf, NgForOf, MatButtonModule, TufinUiCommonModule],
+  imports: [MatTableModule, MatSortModule, DatePipe, MatInputModule, NgIf, NgForOf, MatButtonModule, ChartsComponent],
 })
 export class UserInputComponent implements OnInit {
 
   protected readonly defDateFormat = 'mediumDate';
 
-  @Input() data: UserInputModel[] = [... Dataaaaa];
+  @Input() data: Interaction[] = [];
 
   private dateTransformer = new DatePipe(`en-US`, null, {dateFormat: this.defDateFormat, timezone: "0"});
   private filterValues: any = {};
 
   displayedColumns: string[] = ['account', 'userVersion', 'category', 'userQuery', 'timestamp', 'userSentiment', 'sentimentScore'];
-  dataSource: MatTableDataSource<UserInputModel>;
-  filteredData = computed(() =>  this.dataSource ? this.dataSource.filteredData : this.data);
+  // @ts-ignore
+  dataSource: MatTableDataSource<Interaction>;
+  filteredData = signal<Interaction[]>([]);
   showFilterRow: boolean = false;
 
+  // @ts-ignore
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private dialog: MatDialog) { }
-
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.data);
-    this.dataSource.sort = this.sort;
+  constructor(private dialog: MatDialog, private http: HttpClient) {
+    this.http.get<Interaction[]>('http://ec2-52-205-250-126.compute-1.amazonaws.com:8080/interaction/all').subscribe((data: Interaction[]): void => {
+      this.data = [... data];
+      this.dataSource = new MatTableDataSource(this.data);
+      this.dataSource.sort = this.sort;
+      this.filteredData.set(this.data);
+    });
   }
 
-  resolveSentiment(row: UserInputModel): string {
+  ngOnInit() {
+    // this.dataSource = new MatTableDataSource(this.data);
+    // this.dataSource.sort = this.sort;
+  }
+
+  resolveSentiment(row: Interaction): string {
     return row.overallSentiment.sentimentType;
   }
 
-  openConversation(row: UserInputModel) {
+  openConversation(row: Interaction) {
     this.dialog.open(UserInputConversationComponent, {data: row.conversation});
   }
 
-  resolveSentimentScore(row: UserInputModel): number {
+  resolveTimestamp(row: Interaction): number {
+    return row.timestamp ? row.timestamp*1000 : 0;
+  }
+
+  resolveUserQuery(row: Interaction): string {
+    const len = row.userQuery?.length || 0;
+    if (len == 0) return '';
+    if (len > 30) return row.userQuery.substring(0, 30) + "...";
+    return row.userQuery;
+  }
+
+  resolveSentimentScore(row: Interaction): number {
     const sentiment = this.resolveSentiment(row).toLowerCase();
+    // @ts-ignore
     return row.overallSentiment.sentimentConfidence[sentiment];
   }
 
@@ -64,8 +88,9 @@ export class UserInputComponent implements OnInit {
     this.dataSource.data = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'timestamp': return this.compare(new Date(a.timestamp), new Date(b.timestamp), isAsc);
-        default: return this.compare(a[sort.active], b[sort.active], isAsc);
+        case 'timestamp': return this.compare(new Date(this.resolveTimestamp(a)), new Date(this.resolveTimestamp(b)), isAsc);
+        default: // @ts-ignore
+          return this.compare(a[sort.active], b[sort.active], isAsc);
       }
     });
   }
@@ -80,14 +105,15 @@ export class UserInputComponent implements OnInit {
     this.filterValues[columnName] = filterValue.trim().toLowerCase();
     const keys = Object.keys(this.filterValues);
 
-    this.dataSource.filterPredicate = (data: UserInputModel, filter: string) => {
+    this.dataSource.filterPredicate = (data: Interaction, filter: string) => {
       for (let key of keys) {
         const filterValue = this.filterValues[key];
         if (filterValue.length === 0 ) continue;
 
+        // @ts-ignore
         let cellValue = data[key];
         if (key === 'timestamp') {
-          cellValue = this.dateTransformer.transform(cellValue);
+          cellValue = this.dateTransformer.transform(this.resolveTimestamp(data));
         }
 
         if (! cellValue.toLowerCase().includes(filterValue)) {
@@ -98,6 +124,7 @@ export class UserInputComponent implements OnInit {
     }
 
     this.dataSource.filter = 'aaaaaaaaaaaaaaaaa';//filterValue.trim().toLowerCase();
+    this.filteredData.set(this.dataSource.filteredData);
   }
 
   toggleFilterRow() {
@@ -106,8 +133,10 @@ export class UserInputComponent implements OnInit {
 
   clearFilterRow() {
     this.showFilterRow = false;
+    // @ts-ignore
     this.dataSource.filter = null;
     this.filterValues = {};
+    this.filteredData.set(this.data);
   }
 
 }

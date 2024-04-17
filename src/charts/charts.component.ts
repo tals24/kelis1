@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {CanvasComponent} from "./canvas/canvas.component";
 import {MatButtonModule} from "@angular/material/button";
 import {ColumnsComponent} from "./columns/columns.component";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {Interaction} from "./charts.models";
 
 @Component({
   selector: 'app-charts',
@@ -13,6 +14,10 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
   styleUrl: './charts.component.css'
 })
 export class ChartsComponent {
+
+  // @ts-ignore
+  @Input() interactions: Interaction[];
+
   constructor(public dialog: MatDialog) {}
 
   openColumnsComponent(enterAnimationDuration: string, exitAnimationDuration: string): void {

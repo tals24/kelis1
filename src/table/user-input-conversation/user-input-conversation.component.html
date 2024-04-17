@@ -1,7 +1,12 @@
+<!--<button mat-icon-button (click)="closeDialog()" [mat-dialog-close]="true">-->
+<!--    <mat-icon>close</mat-icon>-->
+<!--</button>-->
+
 <h1>
   <span>Conversation</span>
 </h1>
 
+<mat-dialog-content>
 <div *ngFor="let message of conversation">
   <ng-container *ngIf="readMessage(message) as msg">
       <span *ngIf="msg.type === 'Assistant'" class="assistant">{{msg.text}}</span>
@@ -9,7 +14,8 @@
       <span *ngIf="msg.type === null" class="simple">{{msg.text}}</span>
   </ng-container>
 </div>
+</mat-dialog-content>
 
-<div class="btn-div">
-  <button mat-button (click)="closeDialog()" class="close-btn">Close</button>
-</div>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

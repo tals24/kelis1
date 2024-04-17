@@ -1,6 +1,7 @@
 <button mat-button (click)="toggleFilterRow()">Toggle Filter</button>
 <button *ngIf="dataSource.filter" mat-button (click)="clearFilterRow()">Clear Filter</button>
 
+<!--<div style="display: flex; flex-direction: column; height: 100vh; /* Set container height to viewport height */">-->
 <mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
 
   <!-- Account Column -->
@@ -45,7 +46,7 @@
       </div>
     </mat-header-cell>
     <mat-cell *matCellDef="let row" class="conv-link ellipsis" [title]="row.userQuery">
-      <a (click)="openConversation(row)">{{row.userQuery}} </a></mat-cell>
+      <a (click)="openConversation(row)">{{resolveUserQuery(row)}} </a></mat-cell>
   </ng-container>
 
   <!-- Timestamp Column -->
@@ -56,7 +57,7 @@
         <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'timestamp')" placeholder="Filter by Timestamp">
       </div>
     </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{row.timestamp*1000 | date: defDateFormat}} </mat-cell>
+    <mat-cell *matCellDef="let row"> {{resolveTimestamp(row) | date: defDateFormat}} </mat-cell>
   </ng-container>
 
   <!-- User Sentiment Column -->
@@ -85,3 +86,10 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+
+
+<!--<div style="height: 100px; /* Set fixed height */">-->
+<app-charts [interactions]="filteredData()"></app-charts>
+<!--</div>-->
+
+<!--</div>-->

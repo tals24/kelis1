@@ -11,10 +11,11 @@ $cell-padding: 8px 16px;
 :host {
   display: block;
   max-width: 100%;
-  overflow: auto;
+  //overflow: auto;
 
   .mat-mdc-table {
     width: 100%;
+    flex: 1; /* Take up remaining space */
 
     mat-header-row {
       @extend .row;

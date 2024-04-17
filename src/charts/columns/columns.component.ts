@@ -12,7 +12,7 @@
 // }
 
 
-import { Component } from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
@@ -36,19 +36,22 @@ import {AHelp, DataVal, DataValMarkerSize, Interaction} from "../charts.models";
   templateUrl: './columns.component.html',
   styleUrl: './columns.component.css'
 })
-export class ColumnsComponent {
+export class ColumnsComponent implements OnChanges {
   chartOptions= {}
   private dataVals: DataVal[] =[]
   private dataValMarkerSize: DataValMarkerSize[] =[]
-  interactions: Array<Interaction> = [];
-  constructor(private http: HttpClient) {
-    this.extracted();
+  @Input() interactions: Array<Interaction> = [];
+
+  ngOnChanges({interactions}: SimpleChanges) {
+    if (interactions && interactions.currentValue !== interactions.previousValue) {
+      this.extracted();
+    }
   }
 
   private extracted() {
-    this.http.get<Interaction[]>('http://ec2-52-205-250-126.compute-1.amazonaws.com:8080/interaction/all').subscribe((data: Interaction[]): void => {
-      // console.log(data)
-      this.interactions = data;
+    // this.http.get<Interaction[]>('http://ec2-52-205-250-126.compute-1.amazonaws.com:8080/interaction/all').subscribe((data: Interaction[]): void => {
+    //   // console.log(data)
+    //   this.interactions = data;
       let myMap = new Map<string, AHelp>();
       let categoryCounts = {};
       this.interactions.forEach(entry => {
@@ -67,12 +70,14 @@ export class ColumnsComponent {
         myMap.set(category, {count: me?.count + 1, sum: overallSentiment});
 
       });
+    this.dataVals = [];
       myMap.forEach((value: AHelp, key: string) => {
         this.dataVals.push({label: `${key} (${value.count})`, y: (value.sum / value.count)})
       });
 
       this.chartOptions = {
         width:620,
+        containerId: "chartContainer2",
         animationEnabled: true,
         title: {
           text: "Sentiment analysis feature",
@@ -90,7 +95,7 @@ export class ColumnsComponent {
           dataPoints: this.dataVals
         }]
       };
-    });
+    // });
   }
 
 

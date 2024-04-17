@@ -12,6 +12,7 @@ export interface Interaction {
     timestamp: number;
     analyzedUserResponse: AnalyzedUserResponse[];
     overallSentiment: OverallSentiment;
+    conversation: string[];
 }
 
 export interface AnalyzedUserResponse {
