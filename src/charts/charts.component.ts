@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {CanvasComponent} from "./canvas/canvas.component";
 import {MatButtonModule} from "@angular/material/button";
@@ -11,7 +11,8 @@ import {Interaction} from "./charts.models";
   standalone: true,
   imports: [MatButtonModule, MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatGridTile, MatGridList, CanvasComponent, ColumnsComponent],
   templateUrl: './charts.component.html',
-  styleUrl: './charts.component.css'
+  styleUrl: './charts.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChartsComponent {
 

@@ -1,95 +1,100 @@
 <button mat-button (click)="toggleFilterRow()">Toggle Filter</button>
 <button *ngIf="dataSource?.filter" mat-button (click)="clearFilterRow()">Clear Filter</button>
 
-<!--<div style="display: flex; flex-direction: column; height: 100vh; /* Set container height to viewport height */">-->
-<mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
+<div class="container">
+    <div class="table">
+        <mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
 
-  <!-- Account Column -->
-  <ng-container matColumnDef="account">
-    <mat-header-cell *matHeaderCellDef>
-      <div class="header-data">
-        <span mat-sort-header>Account</span>
-        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'account')" placeholder="Filter by Account">
-      </div>
-    </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{row.account}} </mat-cell>
-  </ng-container>
+            <!-- Account Column -->
+            <ng-container matColumnDef="account">
+                <mat-header-cell *matHeaderCellDef>
+                    <div class="header-data">
+                        <span mat-sort-header>Account</span>
+                        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'account')" placeholder="Filter by Account">
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.account}} </mat-cell>
+            </ng-container>
 
-  <!-- User Version Column -->
-  <ng-container matColumnDef="userVersion">
-    <mat-header-cell *matHeaderCellDef>
-      <div class="header-data">
-        <span mat-sort-header>User Version</span>
-        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'userVersion')" placeholder="Filter by User Version">
-      </div>
-    </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{row.userVersion}} </mat-cell>
-  </ng-container>
+            <!-- User Version Column -->
+            <ng-container matColumnDef="userVersion">
+                <mat-header-cell *matHeaderCellDef>
+                    <div class="header-data">
+                        <span mat-sort-header>User Version</span>
+                        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'userVersion')" placeholder="Filter by User Version">
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.userVersion}} </mat-cell>
+            </ng-container>
 
-  <!-- Category Column -->
-  <ng-container matColumnDef="category">
-    <mat-header-cell *matHeaderCellDef>
-      <div class="header-data">
-        <span mat-sort-header>Category</span>
-        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'category')" placeholder="Filter by Category">
-      </div>
-    </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{row.category}} </mat-cell>
-  </ng-container>
+            <!-- Category Column -->
+            <ng-container matColumnDef="category">
+                <mat-header-cell *matHeaderCellDef>
+                    <div class="header-data">
+                        <span mat-sort-header>Category</span>
+                        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'category')" placeholder="Filter by Category">
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.category}} </mat-cell>
+            </ng-container>
 
-  <!-- User Query Column -->
-  <ng-container matColumnDef="userQuery">
-    <mat-header-cell *matHeaderCellDef>
-      <div class="header-data">
-        <span mat-sort-header>User Query</span>
-        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'userQuery')" placeholder="Filter by User Query">
-      </div>
-    </mat-header-cell>
-    <mat-cell *matCellDef="let row" class="conv-link ellipsis" [title]="row.userQuery">
-      <a (click)="openConversation(row)">{{resolveUserQuery(row)}} </a></mat-cell>
-  </ng-container>
+            <!-- User Query Column -->
+            <ng-container matColumnDef="userQuery">
+                <mat-header-cell *matHeaderCellDef>
+                    <div class="header-data">
+                        <span mat-sort-header>User Query</span>
+                        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'userQuery')" placeholder="Filter by User Query">
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" class="conv-link ellipsis" [title]="row.userQuery">
+                    <a (click)="openConversation(row)">{{resolveUserQuery(row)}} </a></mat-cell>
+            </ng-container>
 
-  <!-- Timestamp Column -->
-  <ng-container matColumnDef="timestamp">
-    <mat-header-cell *matHeaderCellDef>
-      <div class="header-data">
-        <span mat-sort-header>Timestamp</span>
-        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'timestamp')" placeholder="Filter by Timestamp">
-      </div>
-    </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{resolveTimestamp(row) | date: defDateFormat}} </mat-cell>
-  </ng-container>
+            <!-- Timestamp Column -->
+            <ng-container matColumnDef="timestamp">
+                <mat-header-cell *matHeaderCellDef>
+                    <div class="header-data">
+                        <span mat-sort-header>Timestamp</span>
+                        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'timestamp')" placeholder="Filter by Timestamp">
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{resolveTimestamp(row) | date: defDateFormat}} </mat-cell>
+            </ng-container>
 
-  <!-- User Sentiment Column -->
-  <ng-container matColumnDef="userSentiment">
-    <mat-header-cell *matHeaderCellDef>
-      <div class="header-data">
-        <span mat-sort-header>User Sentiment</span>
-        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'userSentiment')" placeholder="Filter by User Sentiment">
-      </div>
-    </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{resolveSentiment(row)}} </mat-cell>
-  </ng-container>
+            <!-- User Sentiment Column -->
+            <ng-container matColumnDef="userSentiment">
+                <mat-header-cell *matHeaderCellDef>
+                    <div class="header-data">
+                        <span mat-sort-header>User Sentiment</span>
+                        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'userSentiment')" placeholder="Filter by User Sentiment">
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{resolveSentiment(row)}} </mat-cell>
+            </ng-container>
 
-    <!-- Sentiment Score Column -->
-    <ng-container matColumnDef="sentimentScore">
-        <mat-header-cell *matHeaderCellDef>
-            <div class="header-data">
-                <span mat-sort-header>Sentiment Score</span>
-                <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'sentimentScore')" placeholder="Filter by Sentiment Score">
-            </div>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{resolveSentimentScore(row)}} </mat-cell>
-    </ng-container>
+            <!-- Sentiment Score Column -->
+            <ng-container matColumnDef="sentimentScore">
+                <mat-header-cell *matHeaderCellDef>
+                    <div class="header-data">
+                        <span mat-sort-header>Sentiment Score</span>
+                        <input *ngIf="showFilterRow" matInput class="filter-input" (keyup)="applyFilter($event, 'sentimentScore')" placeholder="Filter by Sentiment Score">
+                    </div>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{resolveSentimentScore(row)}} </mat-cell>
+            </ng-container>
 
-  <!-- Define the table rows -->
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
-
+            <!-- Define the table rows -->
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+    <div class="chart">
+        <app-charts class="charts" [interactions]="filteredData()"></app-charts>
+    </div>
+</div>
 
 <!--<div style="height: 100px; /* Set fixed height */">-->
-<app-charts class="charts" [interactions]="filteredData()"></app-charts>
+
 <!--</div>-->
 
 <!--</div>-->

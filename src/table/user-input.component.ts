@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, signal, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, signal, ViewChild} from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {MatSort, MatSortModule, Sort} from '@angular/material/sort';
 // import { Interaction} from './user-input-model';
@@ -18,6 +18,7 @@ import {ChartsComponent} from "../charts/charts.component";
   styleUrls: ['./user-input.component.scss'],
   standalone: true,
   imports: [MatTableModule, MatSortModule, DatePipe, MatInputModule, NgIf, NgForOf, MatButtonModule, ChartsComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserInputComponent implements OnInit {
 
@@ -113,9 +114,13 @@ export class UserInputComponent implements OnInit {
         let cellValue = data[key];
         if (key === 'timestamp') {
           cellValue = this.dateTransformer.transform(this.resolveTimestamp(data));
+        } else if (key === 'userSentiment') {
+          cellValue = this.resolveSentiment(data);
+        } else if (key === 'sentimentScore') {
+          cellValue = ''+this.resolveSentimentScore(data);
         }
 
-        if (! cellValue.toLowerCase().includes(filterValue)) {
+        if (!cellValue || ! cellValue.toLowerCase().includes(filterValue)) {
           return false;
         }
       }

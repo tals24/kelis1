@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
@@ -10,6 +10,7 @@ import {AHelp, DataValMarkerSize, Interaction} from "../charts.models";
 @Component({
   selector: 'app-canvas',
   standalone: true,
+
   imports: [
     MatDialogContent,
     MatDialogActions,
@@ -20,7 +21,8 @@ import {AHelp, DataValMarkerSize, Interaction} from "../charts.models";
     MatDialogActions
   ],providers:[HttpClientModule ],
   templateUrl: './canvas.component.html',
-  styleUrl: './canvas.component.scss'
+  styleUrl: './canvas.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CanvasComponent implements OnChanges {
 
@@ -40,8 +42,10 @@ export class CanvasComponent implements OnChanges {
 
   ngOnChanges({interactions}: SimpleChanges) {
 
-    if (interactions && interactions.currentValue !== interactions.previousValue) {
+    // if (interactions && interactions.currentValue !== interactions.previousValue) {
+      this.interactions = [... interactions.currentValue];
 
+      console.log("canvas: " + Object.keys(this.interactions).length)
       const myMap = new Map<string, AHelp>([
         ["January", {'count': 0, sum: 0}],
         ["February", {'count': 0, sum: 0}],
@@ -63,7 +67,7 @@ export class CanvasComponent implements OnChanges {
       this.interactions.forEach(entry => {
         // @ts-ignore
         let key = this.monthNames[new Date(entry.timestamp * 1000).getMonth()]
-        console.log("key     ", key)
+        // console.log("key     ", key)
         let me = myMap.get(key)
         let overallSentiment;
         if (entry.overallSentiment.sentimentType === "POSITIVE") {
@@ -78,9 +82,9 @@ export class CanvasComponent implements OnChanges {
 
       this.dataValMarkerSize = [];
       myMap.forEach((value: AHelp, key: string) => {
-        this.dataValMarkerSize.push({label: key, markerSize: (value.count*2) , y: (value.sum / value.count), })
+        this.dataValMarkerSize.push({label: key, markerSize: (value.count) , y: (value.sum / value.count), })
       });
-      console.log('this.dataValMarkerSize', this.dataValMarkerSize)
+      // console.log('this.dataValMarkerSize', this.dataValMarkerSize)
       this.chartOptions1 = {
         width: 620,
         axisX: {
@@ -109,7 +113,7 @@ export class CanvasComponent implements OnChanges {
       // });
     }
 
-  }
+  // }
 }
 
 

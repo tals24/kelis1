@@ -12,7 +12,7 @@
 // }
 
 
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
@@ -34,7 +34,8 @@ import {AHelp, DataVal, DataValMarkerSize, Interaction} from "../charts.models";
     MatDialogActions
   ],providers:[HttpClientModule ],
   templateUrl: './columns.component.html',
-  styleUrl: './columns.component.css'
+  styleUrl: './columns.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColumnsComponent implements OnChanges {
   chartOptions= {}
@@ -43,9 +44,10 @@ export class ColumnsComponent implements OnChanges {
   @Input() interactions: Array<Interaction> = [];
 
   ngOnChanges({interactions}: SimpleChanges) {
-    if (interactions && interactions.currentValue !== interactions.previousValue) {
+    // if (interactions && interactions.currentValue !== interactions.previousValue) {
+      this.interactions =[... interactions.currentValue];
       this.extracted();
-    }
+    // }
   }
 
   private extracted() {
@@ -65,6 +67,8 @@ export class ColumnsComponent implements OnChanges {
           overallSentiment = +entry.overallSentiment.sentimentConfidence.positive;
         } else if (entry.overallSentiment.sentimentType === "NEGATIVE"){
           overallSentiment = -entry.overallSentiment.sentimentConfidence.negative;
+        // } else if (entry.overallSentiment.sentimentType === "NEUTRAL"){
+        //   overallSentiment = entry.overallSentiment.sentimentConfidence.neutral;
         }
         // @ts-ignore
         myMap.set(category, {count: me?.count + 1, sum: overallSentiment});

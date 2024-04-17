@@ -34,8 +34,8 @@ export interface OverallSentiment {
     sentimentType: "NEGATIVE" | "NEUTRAL" |  "POSITIVE",
     sentimentConfidence: {
         positive: number,
-        negative: number
-
+        negative: number,
+        neutral: number
     }
 }
 export interface DataVal{
