@@ -77,8 +77,11 @@ export class CanvasComponent implements OnChanges {
         }
         // @ts-ignore
         const c: number = me?.count ? me.count : 0;
-        // @ts-ignore
-        myMap.set(key, {count: c + 1, sum: overallSentiment});
+
+        if (overallSentiment) {
+          // @ts-ignore
+          myMap.set(key, {count: c + 1, sum: overallSentiment});
+        }
 
       });
 
