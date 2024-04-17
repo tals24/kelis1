@@ -67,7 +67,7 @@ export class CanvasComponent implements OnChanges {
       this.interactions.forEach(entry => {
         // @ts-ignore
         let key = this.monthNames[new Date(entry.timestamp * 1000).getMonth()]
-        // console.log("key     ", key)
+        console.log("key     ", key)
         let me = myMap.get(key)
         let overallSentiment;
         if (entry.overallSentiment.sentimentType === "POSITIVE") {
@@ -76,7 +76,9 @@ export class CanvasComponent implements OnChanges {
           overallSentiment = -entry.overallSentiment.sentimentConfidence.negative;
         }
         // @ts-ignore
-        myMap.set(key, {count: me?.count + 1, sum: overallSentiment});
+        const c: number = me?.count ? me.count : 0;
+        // @ts-ignore
+        myMap.set(key, {count: c + 1, sum: overallSentiment});
 
       });
 
