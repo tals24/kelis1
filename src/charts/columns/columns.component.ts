@@ -78,6 +78,7 @@ export class ColumnsComponent {
           text: "Sentiment analysis feature",
 
         },
+
         data: [{
           type: "column",
           dataPoints: this.dataVals

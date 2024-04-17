@@ -83,8 +83,15 @@ export class CanvasComponent {
           interval: 1
         },
 
+
         title: {
           text: "Sentiment analysis per month"
+        },  axisY:{
+          minimum: -1,
+          maximum: 1
+
+
+
         },
         data: [{
           toolTipContent: "Interactions: {markerSize} </br> Sentiment: {y} ",
