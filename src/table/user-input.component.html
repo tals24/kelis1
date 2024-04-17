@@ -1,5 +1,5 @@
 <button mat-button (click)="toggleFilterRow()">Toggle Filter</button>
-<button *ngIf="dataSource.filter" mat-button (click)="clearFilterRow()">Clear Filter</button>
+<button *ngIf="dataSource?.filter" mat-button (click)="clearFilterRow()">Clear Filter</button>
 
 <!--<div style="display: flex; flex-direction: column; height: 100vh; /* Set container height to viewport height */">-->
 <mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
@@ -89,7 +89,7 @@
 
 
 <!--<div style="height: 100px; /* Set fixed height */">-->
-<app-charts [interactions]="filteredData()"></app-charts>
+<app-charts class="charts" [interactions]="filteredData()"></app-charts>
 <!--</div>-->
 
 <!--</div>-->
